@@ -1,35 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Task List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Task Tracker</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #f0f2f5; margin-top: 50px; }
-        .container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; min-width: 300px; }
-        input { padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 70%; }
-        button { padding: 10px; background: #2ea44f; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        /* This section controls the "Look" (CSS) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            background: #f0f2f5; /* Change this hex code to change background color */
+            margin-top: 50px; 
+        }
+        .container { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            display: inline-block; 
+            min-width: 350px; 
+        }
+        h1 { color: #333; }
+        input { 
+            padding: 12px; 
+            border: 2px solid #eee; 
+            border-radius: 8px; 
+            width: 60%; 
+            outline: none;
+        }
+        input:focus { border-color: #2ea44f; }
+        .btn-add { 
+            padding: 12px 20px; 
+            background: #2ea44f; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+        .btn-clear {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #d73a49;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
         ul { list-style: none; padding: 0; margin-top: 20px; }
-        li { background: #fff; border-bottom: 1px solid #eee; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        li { 
+            background: #f9f9f9; 
+            margin-bottom: 8px;
+            padding: 12px; 
+            border-radius: 8px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 5px solid #2ea44f;
+        }
+        .delete-btn {
+            background: #6e7681;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>My Tasks</h1>
-        <input type="text" id="taskInput" placeholder="What needs to be done?">
-        <button onclick="addTask()">Add</button>
+        
+        <input type="text" id="taskInput" placeholder="Enter a new task...">
+        <button class="btn-add" onclick="addTask()">Add</button>
+        
         <ul id="taskList"></ul>
+
+        <button class="btn-clear" onclick="clearTasks()">Clear All Tasks</button>
     </div>
 
     <script>
+        /* This section controls the "Logic" (JavaScript) */
+        
+        // Function to add a single task
         function addTask() {
             let input = document.getElementById('taskInput');
             let ul = document.getElementById('taskList');
+            
             if (input.value.trim() !== "") {
                 let li = document.createElement('li');
-                li.innerHTML = input.value + ' <button onclick="this.parentElement.remove()" style="background:#d73a49; padding: 5px 10px;">Done</button>';
+                li.innerHTML = `
+                    <span>${input.value}</span>
+                    <button class="delete-btn" onclick="this.parentElement.remove()">Done</button>
+                `;
                 ul.appendChild(li);
-                input.value = "";
+                input.value = ""; // Clears the input box
             }
         }
+
+        // Function to delete everything at once
+        function clearTasks() {
+            if(confirm("Are you sure you want to delete all tasks?")) {
+                document.getElementById('taskList').innerHTML = "";
+            }
+        }
+
+        // Allow pressing "Enter" key to add task
+        document.getElementById("taskInput").addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
     </script>
 </body>
 </html>
